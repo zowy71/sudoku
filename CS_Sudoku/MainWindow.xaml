@@ -5,8 +5,336 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CS_Sudoku"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        Title="Sudoku" Height="500" Width="660" ResizeMode="NoResize" Icon="Images/sudoku_64.png">
+    <Window.Resources>
+        <Style x:Key="StyleRadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ToggleButtonEdit, Path=IsChecked}" Value="True">
+                    <Setter Property="Background" Value="#FFF6F9B8"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type Image}" x:Key="EditButton">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ToggleButtonEdit, Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Value="True">
+                    <Setter Property="Source" Value="Images/actions-document-edit_64.png"/>
+                    <Setter Property="ToolTip" Value="Ajouter un chiffre"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=ToggleButtonEdit, Path=IsChecked, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Value="False">
+                    <Setter Property="Source" Value="Images/tampon_64.png"/>
+                    <Setter Property="ToolTip" Value="Placer un chiffre"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SmallDigitStyle" TargetType="Label">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="Foreground">
+                <Setter.Value>
+                    <SolidColorBrush Color="#FF1E1E1E" Opacity="{Binding Opacity, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="DigitStyle" TargetType="Label">
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="FontFamily" Value="Stencil"/>
+            <Setter Property="FontSize" Value="24"/>
+            <Setter Property ="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="LabelDigitStyle" BasedOn="{StaticResource ResourceKey=DigitStyle}" TargetType="Label">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ToggleButtonEdit, Path=IsChecked}" Value="False">
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <SolidColorBrush Color="DodgerBlue"/>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <DataTemplate x:Key="CellCase">
+            <Canvas>
+                <Border x:Name="CellPossBorder" Width="45" Height="45" BorderThickness="1" BorderBrush="#FFBF4646" Padding="0" Margin="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="15"></ColumnDefinition>
+                            <ColumnDefinition Width="15"></ColumnDefinition>
+                            <ColumnDefinition Width="15"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15"></RowDefinition>
+                            <RowDefinition Height="15"></RowDefinition>
+                            <RowDefinition Height="15"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Content="1" DataContext="{Binding [1], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SmallDigitStyle}" Grid.Row="0" Grid.Column="0"/>
+                        <Label Content="2" DataContext="{Binding [2], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SmallDigitStyle}" Grid.Row="0" Grid.Column="1"/>
+                        <Label Content="3" DataContext="{Binding [3], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SmallDigitStyle}" Grid.Row="0" Grid.Column="2"/>
+                        <Label Content="4" DataContext="{Binding [4], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SmallDigitStyle}" Grid.Row="1" Grid.Column="0"/>
+                        <Label Content="5" DataContext="{Binding [5], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SmallDigitStyle}" Grid.Row="1" Grid.Column="1"/>
+                        <Label Content="6" DataContext="{Binding [6], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SmallDigitStyle}" Grid.Row="1" Grid.Column="2"/>
+                        <Label Content="7" DataContext="{Binding [7], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SmallDigitStyle}" Grid.Row="2" Grid.Column="0"/>
+                        <Label Content="8" DataContext="{Binding [8], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SmallDigitStyle}" Grid.Row="2" Grid.Column="1"/>
+                        <Label Content="9" DataContext="{Binding [9], UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SmallDigitStyle}" Grid.Row="2" Grid.Column="2"/>
+                    </Grid>
+                </Border>
+                <Border x:Name="CellValueBorder" Height="45" Width="45" BorderThickness="1" BorderBrush="#FFBF4646" Visibility="Visible">
+                    <Label x:Name="CellValueLabel" Style="{StaticResource DigitStyle}" Content="{Binding Valeur, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"/>
+                </Border>
+                <Border x:Name="CellValueFixedBorder"  Height="45" Width="45" BorderThickness="1" BorderBrush="#FFBF4646">
+                    <Label x:Name="CellValueFixedLabel" Style="{StaticResource DigitStyle}" Content="{Binding Valeur, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Background="#FFD9BABA"/>
+                </Border>
+            </Canvas>
+            <DataTemplate.Triggers>
+                <!-- Il faut rendre invisible les bords en fonction de la cellule -->
+                <DataTrigger Binding="{Binding Path=IsFixed, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Value="true">
+                    <Setter TargetName="CellPossBorder" Property="Visibility" Value="Hidden"/>
+                    <Setter TargetName="CellValueBorder" Property="Visibility" Value="Hidden"/>
+                </DataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=IsFixed, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Value="false" />
+                        <Condition Binding="{Binding Path=IsSet, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Value="true" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="CellPossBorder" Property="Visibility" Value="Hidden"/>
+                    <Setter TargetName="CellValueFixedBorder" Property="Visibility" Value="Hidden"/>
+                </MultiDataTrigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding Path=IsFixed, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Value="false" />
+                        <Condition Binding="{Binding Path=IsSet, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Value="false" />
+                    </MultiDataTrigger.Conditions>
+                    <Setter TargetName="CellValueBorder" Property="Visibility" Value="Hidden"/>
+                    <Setter TargetName="CellValueFixedBorder" Property="Visibility" Value="Hidden"/>
+                </MultiDataTrigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="CellPossBorder" Property="BorderBrush" Value="AliceBlue"/>
+                    <Setter TargetName="CellValueBorder"  Property="BorderBrush" Value="AliceBlue"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding IsConcerned, UpdateSourceTrigger=PropertyChanged}" Value="True">
+                    <Setter TargetName="CellPossBorder"  Property="Background" Value="#FFF6F9B8"/>
+                    <Setter TargetName="CellValueLabel"  Property="Foreground" Value="DodgerBlue"/>
+                    <Setter TargetName="CellValueBorder" Property="Background" Value="#FFF6F9B8"/>
+                    <Setter TargetName="CellValueFixedLabel"  Property="Foreground" Value="Cyan"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+        <DataTemplate x:Key="BlocTemplate">
+            <Border BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center"  VerticalAlignment="Top">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="45"></ColumnDefinition>
+                        <ColumnDefinition Width="45"></ColumnDefinition>
+                        <ColumnDefinition Width="45"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45"></RowDefinition>
+                        <RowDefinition Height="45"></RowDefinition>
+                        <RowDefinition Height="45"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ContentControl  ContentTemplate="{StaticResource CellCase}"  DataContext="{Binding [0]}" Content="{Binding}" Grid.Row="0" Grid.Column="0" MouseDown="ContentControl_MouseDown"/>
+                    <ContentControl  ContentTemplate="{StaticResource CellCase}"  DataContext="{Binding [1]}" Content="{Binding}" Grid.Row="0" Grid.Column="1" MouseDown="ContentControl_MouseDown"/>
+                    <ContentControl  ContentTemplate="{StaticResource CellCase}"  DataContext="{Binding [2]}" Content="{Binding}" Grid.Row="0" Grid.Column="2" MouseDown="ContentControl_MouseDown"/>
+                    <ContentControl  ContentTemplate="{StaticResource CellCase}"  DataContext="{Binding [3]}" Content="{Binding}" Grid.Row="1" Grid.Column="0" MouseDown="ContentControl_MouseDown"/>
+                    <ContentControl  ContentTemplate="{StaticResource CellCase}"  DataContext="{Binding [4]}" Content="{Binding}" Grid.Row="1" Grid.Column="1" MouseDown="ContentControl_MouseDown"/>
+                    <ContentControl  ContentTemplate="{StaticResource CellCase}"  DataContext="{Binding [5]}" Content="{Binding}" Grid.Row="1" Grid.Column="2" MouseDown="ContentControl_MouseDown"/>
+                    <ContentControl  ContentTemplate="{StaticResource CellCase}"  DataContext="{Binding [6]}" Content="{Binding}" Grid.Row="2" Grid.Column="0" MouseDown="ContentControl_MouseDown"/>
+                    <ContentControl  ContentTemplate="{StaticResource CellCase}"  DataContext="{Binding [7]}" Content="{Binding}" Grid.Row="2" Grid.Column="1" MouseDown="ContentControl_MouseDown"/>
+                    <ContentControl  ContentTemplate="{StaticResource CellCase}"  DataContext="{Binding [8]}" Content="{Binding}" Grid.Row="2" Grid.Column="2" MouseDown="ContentControl_MouseDown"/>
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    <StackPanel Orientation="Horizontal">
+        <Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                    <ColumnDefinition Width="140"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="140"></RowDefinition>
+                    <RowDefinition Height="140"></RowDefinition>
+                    <RowDefinition Height="140"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Column="0">1</Label>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Column="1">2</Label>
+                    <Label Style="{StaticResource DigitStyle}"  Grid.Column="2">3</Label>
+                </Grid>
+                <Grid Grid.Row="0" Grid.Column="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Column="0">4</Label>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Column="1">5</Label>
+                    <Label Style="{StaticResource DigitStyle}"  Grid.Column="2">6</Label>
+                </Grid>
+                <Grid Grid.Row="0" Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Column="0">7</Label>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Column="1">8</Label>
+                    <Label Style="{StaticResource DigitStyle}"  Grid.Column="2">9</Label>
+                </Grid>
+                <Grid Grid.Row="1" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Row="0">A</Label>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Row="1">B</Label>
+                    <Label Style="{StaticResource DigitStyle}"  Grid.Row="2">C</Label>
+                </Grid>
+                <Grid Grid.Row="2" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Row="0">D</Label>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Row="1">E</Label>
+                    <Label Style="{StaticResource DigitStyle}"  Grid.Row="2">F</Label>
+                </Grid>
+                <Grid Grid.Row="3" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Row="0">G</Label>
+                    <Label Style="{StaticResource DigitStyle}" Grid.Row="1">H</Label>
+                    <Label Style="{StaticResource DigitStyle}"  Grid.Row="2">I</Label>
+                </Grid>
+                <ContentControl ContentTemplate="{StaticResource BlocTemplate}" Content="{Binding [0]}" Grid.Row="1" Grid.Column="1"/>
+                <ContentControl ContentTemplate="{StaticResource BlocTemplate}" Content="{Binding [1]}" Grid.Row="1" Grid.Column="2"/>
+                <ContentControl ContentTemplate="{StaticResource BlocTemplate}" Content="{Binding [2]}" Grid.Row="1" Grid.Column="3"/>
+                <ContentControl ContentTemplate="{StaticResource BlocTemplate}" Content="{Binding [3]}" Grid.Row="2" Grid.Column="1"/>
+                <ContentControl ContentTemplate="{StaticResource BlocTemplate}" Content="{Binding [4]}" Grid.Row="2" Grid.Column="2"/>
+                <ContentControl ContentTemplate="{StaticResource BlocTemplate}" Content="{Binding [5]}" Grid.Row="2" Grid.Column="3"/>
+                <ContentControl ContentTemplate="{StaticResource BlocTemplate}" Content="{Binding [6]}" Grid.Row="3" Grid.Column="1"/>
+                <ContentControl ContentTemplate="{StaticResource BlocTemplate}" Content="{Binding [7]}" Grid.Row="3" Grid.Column="2"/>
+                <ContentControl ContentTemplate="{StaticResource BlocTemplate}" Content="{Binding [8]}" Grid.Row="3" Grid.Column="3"/>
+            </Grid>
+        </Border>
+        <Border Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ToggleButton x:Name="ToggleButtonEdit"  Grid.Row="0" Grid.Column="1">
+                    <Image x:Name="ImageEdit"  Style="{StaticResource EditButton}"/>
+                </ToggleButton>
+                <Button x:Name="ButtonValidateAll" Grid.Row="0" Grid.Column="1" Visibility="Hidden" Click="ButtonValidateAll_Click">
+                    <Image Source="Images/lieu_valider_64.png" ToolTip="Valider l'initialisation du Sudoku"/>
+                </Button>
+                <Button x:Name="ButtonUndo" Grid.Row="1" Grid.Column="1">
+                    <Image Source="Images/undo_64.png" ToolTip="Effacer les modifications apportées au sudoku"/>
+                </Button>
+                <Button x:Name="ButtonClear" Grid.Row="2" Grid.Column="1" Click="Button_Click">
+                    <Image Source="Images/clear_64.png" ToolTip="Effacer tout le Sudoku"></Image>
+                </Button>
+                <Button x:Name="ButtonLoad" Grid.Row="3" Grid.Column="1" Click="ButtonLoad_Click">
+                    <Image Source="Images/load_64.png" ToolTip="Charger un Sudoku"/>
+                </Button>
+                <Button x:Name="ButtonSave" Grid.Row="4" Grid.Column="1">
+                    <Image Source="Images/save_64.png" ToolTip="Sauvegarder le Sudoku"/>
+                </Button>
+                <Button x:Name="ButtonCheck" Grid.Row="5" Grid.Column="1">
+                    <Image Source="Images/Protection_icon_64.png" ToolTip="Vérifier la grille"/>
+                </Button>
+                <ToggleButton x:Name="ButtonApplyRules"  Grid.Row="6" Grid.Column="1" Click="ButtonApplyRules_Click">
+                    <Image Source="Images/apply_rules_64.png" ToolTip="Mode Application de règles"/>
+                </ToggleButton>
+                <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="0" Grid.Column="0">
+                    <Label Style="{StaticResource LabelDigitStyle}" Content="1" MouseDown="RBDigits_MouseDown"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="1" Grid.Column="0">
+                    <Label Style="{StaticResource LabelDigitStyle}" Content="2" MouseDown="RBDigits_MouseDown"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="2" Grid.Column="0">
+                    <Label Style="{StaticResource LabelDigitStyle}" Content="3" MouseDown="RBDigits_MouseDown"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="3" Grid.Column="0">
+                    <Label Style="{StaticResource LabelDigitStyle}" Content="4" MouseDown="RBDigits_MouseDown"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="4" Grid.Column="0">
+                    <Label Style="{StaticResource LabelDigitStyle}" Content="5" MouseDown="RBDigits_MouseDown"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="5" Grid.Column="0">
+                    <Label Style="{StaticResource LabelDigitStyle}" Content="6" MouseDown="RBDigits_MouseDown"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="6" Grid.Column="0">
+                    <Label Style="{StaticResource LabelDigitStyle}" Content="7" MouseDown="RBDigits_MouseDown"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="7" Grid.Column="0">
+                    <Label Style="{StaticResource LabelDigitStyle}" Content="8" MouseDown="RBDigits_MouseDown"/>
+                </RadioButton>
+                <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="8" Grid.Column="0">
+                    <Label Style="{StaticResource LabelDigitStyle}" Content="9" MouseDown="RBDigits_MouseDown"/>
+                </RadioButton>
+            </Grid>
+        </Border>
+        <Menu x:Name="MenuRules" Width="100" IsEnabled="False">
+            <MenuItem Header="Règles" Height="30" Width="100">
+                <MenuItem x:Name="MenuRule1" Header="Règle 1 : Singleton nu" HorizontalAlignment="Left" Height="30" Click="MenuRule1_Click"/>
+                <MenuItem x:Name="MenuRule2" Header="Règle 2 : Singleton caché" HorizontalAlignment="Left" Click="MenuRule2_Click"/>
+                <MenuItem x:Name="MenuRule3" Header="Règle 3 : Interaction Ligne,Colonne/Bloc" HorizontalAlignment="Left" Click="MenuRule3_Click"/>
+                <MenuItem x:Name="MenuRule4" Header="Règle 4 : Groupe nu" HorizontalAlignment="Left" Click="MenuRule4_Click"/>
+                <MenuItem x:Name="MenuRule5" Header="Règle 5 : Groupe caché" HorizontalAlignment="Left" Click="MenuRule5_Click"/>
+                <Separator/>
+                <MenuItem x:Name="MenuX_Wing" Header="X-Wing" HorizontalAlignment="Left" Click="MenuX_Wing_Click"/>
+                <MenuItem x:Name="MenuSwordfish" Header="Swordfish" HorizontalAlignment="Left" Click="MenuSwordfish_Click"/>
+                <Separator/>
+                <MenuItem x:Name="MenuBackTracking" Header="Back Tracking" HorizontalAlignment="Left" Click="MenuBackTracking_Click"/>
+                <MenuItem x:Name="MenuAllRules" Header="Lancer toutes les règles" HorizontalAlignment="Left" Click="MenuAllRules_Click"/>
+                <Separator/>
+                <MenuItem x:Name="ModePasAPas" Header="Mode pas à pas" HorizontalAlignment="Left" IsCheckable="True" IsChecked="True"/>
+                <MenuItem x:Name="AfficherResultat" Header="Afficher les modifications apportées" HorizontalAlignment="Left" IsCheckable="True" IsChecked="True"/>
+                <Separator/>
+                <MenuItem x:Name="MenuDefinirLog" Header="Choisir le fichier de Log..." HorizontalAlignment="Left" Click="MenuDefinirLog_Click"/>
+                <MenuItem x:Name="MenuSupprimerLog" Header="Annuler le fichier de Log" HorizontalAlignment="Left" Click="MenuSupprimerLog_Click"/>
+                <MenuItem x:Name="MenuLog" Header="Fichier de Log : ">
+                    <TextBox x:Name="tbLog" Text="Aucun" HorizontalScrollBarVisibility="Auto"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Aide..." Height="30">
+                <MenuItem x:Name="RemplirPossibilites" Header="Remplir les possibilités" HorizontalAlignment="Left" Click="RemplirPossibilites_Click"/>
+            </MenuItem>
+        </Menu>
+    </StackPanel>
 </Window>

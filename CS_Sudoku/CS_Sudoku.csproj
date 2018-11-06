@@ -55,6 +55,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\RegleSudoku.cs" />
+    <Compile Include="Model\Sudoku.cs" />
+    <Compile Include="ViewModel\VMBlocCell.cs" />
+    <Compile Include="ViewModel\VMCell.cs" />
+    <Compile Include="ViewModel\VMSudoku.cs" />
+    <Compile Include="View\AfficheModifications.xaml.cs">
+      <DependentUpon>AfficheModifications.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -67,6 +75,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\AfficheModifications.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -94,5 +106,18 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\actions-document-edit_64.png" />
+    <Resource Include="Images\apply_rules_64.png" />
+    <Resource Include="Images\clear_64.png" />
+    <Resource Include="Images\lieu_valider_64.png" />
+    <Resource Include="Images\load_64.png" />
+    <Resource Include="Images\Protection_icon_64.png" />
+    <Resource Include="Images\save_64.png" />
+    <Resource Include="Images\sudoku_64.png" />
+    <Resource Include="Images\tampon_64.png" />
+    <Resource Include="Images\undo_64.png" />
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
