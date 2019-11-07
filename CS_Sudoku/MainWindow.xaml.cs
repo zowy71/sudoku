@@ -182,7 +182,7 @@ namespace CS_Sudoku {
         }
 
         private void MenuDefinirLog_Click(object sender, RoutedEventArgs e) {
-            Microsoft.Win32.OpenFileDialog ofd = new Microsoft.Win32.OpenFileDialog();
+            Microsoft.Win32.SaveFileDialog ofd = new Microsoft.Win32.SaveFileDialog();
             // ofd.InitialDirectory = "c:\\";
             ofd.Filter = "Log files (*.log)|*.log|Text files (*.txt)|*.txt|All files (*.*)|*.*";
             ofd.FilterIndex = 1;

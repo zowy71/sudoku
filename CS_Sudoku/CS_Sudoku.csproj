@@ -55,6 +55,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Bloc.cs" />
+    <Compile Include="Model\Cellule.cs" />
+    <Compile Include="Model\Colonne.cs" />
+    <Compile Include="Model\Groupe.cs" />
+    <Compile Include="Model\Ligne.cs" />
     <Compile Include="Model\RegleSudoku.cs" />
     <Compile Include="Model\Sudoku.cs" />
     <Compile Include="ViewModel\VMBlocCell.cs" />

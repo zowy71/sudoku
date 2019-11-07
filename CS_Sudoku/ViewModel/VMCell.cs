@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CS_Sudoku.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace CS_Sudoku.ViewModel {
     public class VMCell : INotifyPropertyChanged {
         // TODO
         // Générer le modèle Cellule
-        // private Cellule cell;
+        private Cellule cell;
         /// <summary>
         /// Les possibilités vont de 1 à 9
         /// </summary>
@@ -82,7 +83,7 @@ namespace CS_Sudoku.ViewModel {
         /// </summary>
         /// <param name="cell"></param>
         public VMCell(/*Cellule cell*/) {
-            //this.cell = cell;
+            // this.cell = cell;
             possibilités[0] = new Possibility { Is = false };
             for (int i = 1; i < 10; i++) {
                 // TODO : A connecter au modèle
@@ -92,7 +93,7 @@ namespace CS_Sudoku.ViewModel {
 
         // TODO
         // A connecter au modèle !!
-        public bool IsFixed => __fixed;   //cell.Fixé;
+        public bool IsFixed => __fixed && __valeur!=0;   //cell.Fixé;
         // public bool IsSet => cell.Trouvé;
         public bool IsSet {  get { return !IsFixed && __valeur != 0; } }
 

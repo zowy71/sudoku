@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CS_Sudoku.View"
         mc:Ignorable="d"
-        Title="AfficheModifications" Height="450" Width="800">
+        Title="AfficheModifications" Height="450" Width="800" Icon="/CS_Sudoku;component/Images/sudoku_64.png">
     <Grid>
         <Rectangle Fill="#FFF4F4F5" Margin="10,10,9.8,23" Stroke="Black"/>
         <TextBox x:Name="tbContenu" Margin="20,19,18.8,34" TextWrapping="Wrap" Text="TextBox" FontFamily="Poiret One" AcceptsReturn="True" AutoWordSelection="True" IsReadOnly="True" FontSize="14" VerticalScrollBarVisibility="Auto"/>

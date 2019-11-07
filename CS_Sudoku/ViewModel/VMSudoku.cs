@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace CS_Sudoku.ViewModel {
     public class VMSudoku {
@@ -58,11 +59,17 @@ namespace CS_Sudoku.ViewModel {
         /// </summary>
         /// <param name="fileName"></param>
         public bool LoadCSV(string fileName, out string rapport) {
-            //bool res = grille.ChargerCSV(fileName, out rapport);
-            //Refresh();
-            //return res;
-            rapport = "Non implémenté.";
-            return false;
+            try
+            {
+                bool res = grille.ChargerCSV(fileName, out rapport);
+                Refresh();
+                return res;
+            }
+            catch (NotImplementedException)
+            {
+                rapport = "Non implémenté.";
+                return false;
+            }
         }
 
         public bool AppliquerRègleSingletonCaché(string file, bool pasAPas, out string res) {
@@ -75,7 +82,14 @@ namespace CS_Sudoku.ViewModel {
         }
 
         public void RemplirPossibilités() {
-            // grille.RemplirPossibilités();
+            try
+            {
+                grille.RemplirPossibilités();
+            }
+            catch (NotImplementedException)
+            {
+                MessageBox.Show("Routine non implémentée...");
+            }
             Refresh();
         }
 
