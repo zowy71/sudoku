@@ -18,7 +18,7 @@ namespace CS_Sudoku.Model
         public const int NONE = 0;
         #endregion
 
-        private int __valeur;
+        private int __valeur = Cellule.NONE;
 
         #region Propriétés
         /// <summary>
