@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,7 +36,10 @@ namespace CS_Sudoku.Model
         /// <summary>
         /// Constructeur par défaut
         /// </summary>
-        public Groupe() : base() { }
+        public Groupe() : base()
+        {
+
+        }
         /// <summary>
         /// Constructeur à partir d'une liste de cellules qui représentent les cellules de ce 
         /// groupe
@@ -54,7 +59,9 @@ namespace CS_Sudoku.Model
         /// 0 (inclu) et 8 (inclu).</exception>
         public Groupe(int numéro) : base()
         {
-            throw new NotImplementedException();
+            if (numéro < 0 || numéro > 8)
+                throw new ArgumentOutOfRangeException($"Constructeur Groupe: le numéro doit être compris entre 0 et 8 ({numéro})");
+            this.Numéro = numéro;
         }
         #endregion
 
@@ -67,7 +74,7 @@ namespace CS_Sudoku.Model
         /// <exception cref="ArgumentOutOfRangeException">Si la valeur n'est pas comprise entre 1 et 9</exception>
         public void AjouterValeurFixéeOuTrouvée(int v)
         {
-            throw new NotImplementedException();
+            this.ValeursFixéesOuTrouvées.Add(v);
         }
 
         /// <summary>
@@ -77,7 +84,7 @@ namespace CS_Sudoku.Model
         /// <exception cref="ArgumentOutOfRangeException">Si la valeur n'est pas comprise entre 1 et 9</exception>
         public void SupprimerValeurFixéeOuTrouvée(int v)
         {
-            throw new NotImplementedException();
+            this.ValeursFixéesOuTrouvées.Remove(v);
         }
 
         /// <summary>
@@ -89,7 +96,7 @@ namespace CS_Sudoku.Model
         /// du groupe, <code>false</code> sinon.</returns>
         public bool ContientValeurFixéeOuTrouvée(int v)
         {
-            throw new NotImplementedException();
+            return this.ValeursFixéesOuTrouvées.Contains(v);
         }
 
         /// <summary>
@@ -100,7 +107,32 @@ namespace CS_Sudoku.Model
         /// du groupe, <code>false</code> sinon.</returns>
         public bool ContientAuMoinsUneValeurFixéeOuTrouvée(IEnumerable<int> ens)
         {
-            throw new NotImplementedException();
+            //// Version 1 : Version "académique"
+            //bool trouve = false;
+            //IEnumerator<int> it = ens.GetEnumerator();
+            //while (it.MoveNext() && !trouve)
+            //{
+            //    trouve = this.ValeursFixéesOuTrouvées.Contains(it.Current);
+            //}
+            //return trouve;
+
+            // Version 2 :
+            bool trouve = false;
+            foreach (int elmt in ens)
+            {
+                //if (this.ValeursFixéesOuTrouvées.Contains(elmt)) return true;
+                if (this.ValeursFixéesOuTrouvées.Contains(elmt))
+                {
+                    trouve = true;
+                    break;
+                }
+            }
+            return trouve;
+
+            // Version 3 : 
+            //HashSet<int> m_ens = new HashSet<int>(this.ValeursFixéesOuTrouvées);
+            //m_ens.IntersectWith(ens);
+            //return m_ens.Count > 0;
         }
 
         /// <summary>
@@ -109,7 +141,10 @@ namespace CS_Sudoku.Model
         /// </summary>
         public void Effacer()
         {
-            throw new NotImplementedException();
+            foreach (Cellule c in this)
+            {
+                c.Effacer();
+            }
         }
 
         /// <summary>
@@ -118,7 +153,13 @@ namespace CS_Sudoku.Model
         /// <returns>Première cellule du groupe</returns>
         public Cellule GetFirst()
         {
-            throw new NotImplementedException();
+            // Version 1 "académique"
+            //IEnumerator<Cellule> it = this.GetEnumerator();
+            //if (it.MoveNext()) return it.Current;
+            //return null;
+
+            // Version 2 
+            return this.First();
         }
 
         /// <summary>
@@ -128,7 +169,10 @@ namespace CS_Sudoku.Model
         /// <see cref="Cellule.RemplirPossibilités"/>
         public void RemplirPossibilités()
         {
-            throw new NotImplementedException();
+            foreach (Cellule c in this)
+            {
+                c.RemplirPossibilités();
+            }
         }
 
         /// <summary>
@@ -141,7 +185,17 @@ namespace CS_Sudoku.Model
         /// a été modifiée, <code>false</code> sinon.</returns>
         public bool SupprimerPossibilité(int v, Cellule origine = null)
         {
-            throw new NotImplementedException();
+            bool modifie = false;
+            foreach (Cellule c in this)
+            {
+                if (c != origine)
+                {
+                    if (c.SupprimerPossibilité(v))
+                        modifie = true;
+                    //modifie |= c.SupprimerPossibilité(v);
+                }
+            }
+            return modifie;
         }
 
         /// <summary>
