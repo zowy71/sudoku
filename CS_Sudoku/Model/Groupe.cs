@@ -61,7 +61,7 @@ namespace CS_Sudoku.Model
         {
             if (numéro < 0 || numéro > 8)
                 throw new ArgumentOutOfRangeException($"Constructeur Groupe: le numéro doit être compris entre 0 et 8 ({numéro})");
-            this.Numéro = numéro;
+            this.Numéro = numéro + 1;
         }
         #endregion
 
@@ -115,6 +115,8 @@ namespace CS_Sudoku.Model
             //    trouve = this.ValeursFixéesOuTrouvées.Contains(it.Current);
             //}
             //return trouve;
+
+
 
             // Version 2 :
             bool trouve = false;
@@ -244,7 +246,20 @@ namespace CS_Sudoku.Model
         /// données en paramètre.</returns>
         public Groupe GetCellulesContenantAuPlus(IEnumerable<int> vals)
         {
-            throw new NotImplementedException();
+            Groupe res = new Groupe();
+
+            foreach (Cellule c in this)
+            {
+                if ( (!c.Fixé) && (!c.Trouvé) )
+                {
+                    if (c.Possibilités.IsSubsetOf(vals))
+                    {
+                        res.Add(c);
+                    }
+                }
+            }
+
+            return res;
         }
 
         /// <summary>

@@ -23,7 +23,7 @@ namespace CS_Sudoku.Model
         ///     Lettre
         /// où Lettre est une lettre avec la correspondance A pour 0, B pour 1, C pour 2, etc.
         /// </summary>
-        public override string NomCourt => throw new NotImplementedException();
+        public override string NomCourt => ((char)('A' + this.Numéro - 1)).ToString();
 
         /// <summary>
         /// Redéfinition du nom du groupe : 
@@ -31,7 +31,7 @@ namespace CS_Sudoku.Model
         ///     Ligne Lettre
         /// où Lettre est le nom court de la ligne.
         /// </summary>
-        public override string Nom => throw new NotImplementedException();
+        public override string Nom => "Ligne " + this.NomCourt;
 
     }
 }

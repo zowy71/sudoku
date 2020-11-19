@@ -23,7 +23,7 @@ namespace CS_Sudoku.Model
         ///     b<code>num</code>
         /// où <code>num</code> est un entier compris entre 1 et 9.
         /// </summary>
-        public override string NomCourt => throw new NotImplementedException();
+        public override string NomCourt => this.Numéro.ToString();
 
         /// <summary>
         /// Redéfinition du nom du groupe : 
@@ -31,7 +31,7 @@ namespace CS_Sudoku.Model
         ///     bloc <code>num</code>
         /// où <code>num</code> est un entier compris entre 1 et 9.
         /// </summary>
-        public override string Nom => throw new NotImplementedException();
+        public override string Nom => "bloc " + this.NomCourt;
 
     }
 }
