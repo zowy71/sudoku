@@ -12,6 +12,10 @@ namespace UnitTestSudoku {
         public void Setup() {
             cell = new Cellule(new Ligne(0), new Colonne(0), new Bloc(0));
         }
+
+        [TestMethod]
+        public void Essai() { }
+
         [TestMethod]
         public void FixerValeur_DonnéesCorrectes_CelluleModifiée() {
             for (int i=1; i<=9; i++) {

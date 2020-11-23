@@ -98,14 +98,14 @@ namespace CS_Sudoku.ViewModel {
         public bool IsSet {  get { return !IsFixed && __valeur != 0; } }
 
         public void Refresh() {
-            OnPropertyChanged("IsFixed");
-            OnPropertyChanged("IsSet");
-            OnPropertyChanged("IsConcerned");
-            OnPropertyChanged("Valeur");
             for (int i = 1; i < 10; i++) {
                 // TODO : A connecter au modèle
                 possibilités[i].Is = VMSudoku.Rnd.Next(2) == 1;      //cell.Possibilités.Contains(i);
             }
+            OnPropertyChanged("IsFixed");
+            OnPropertyChanged("IsSet");
+            OnPropertyChanged("IsConcerned");
+            OnPropertyChanged("Valeur");
         }
 
         /// <summary>
