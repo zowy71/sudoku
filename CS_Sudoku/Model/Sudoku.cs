@@ -34,7 +34,24 @@ namespace CS_Sudoku.Model {
         /// <remarks>Tout doit être allouer, chaque ligne, bloc et colonne...</remarks>
         private void AllouerGroupes()
         {
-            throw new NotImplementedException();
+            this.Lignes = new List<Ligne>();
+            this.Colonnes = new List<Colonne>();
+            this.Blocs = new List<Bloc>();
+            this.Groupes = new List<Groupe>();
+
+            // allocation de chaque ligne, colonne et bloc
+            for (int i=0; i<9; i++)
+            {
+                this.Lignes.Add(new Ligne(i));
+                this.Colonnes.Add(new Colonne(i));
+                this.Blocs.Add(new Bloc(i));
+            }
+
+            // Mettre à jour l'ensemble des groupes
+            this.Groupes.AddRange(this.Lignes);
+            this.Groupes.AddRange(this.Colonnes);
+            this.Groupes.AddRange(this.Blocs);
+
         }
 
         /// <summary>
@@ -48,9 +65,7 @@ namespace CS_Sudoku.Model {
             return li / 3 * 3 + co / 3;
         }
 
-        // TODO !!
-        //=========
-        /// <summary>
+         /// <summary>
         /// Constructeur par défaut.
         /// 
         /// Construit la grille 9x9 et classe les cellules en fonction 
@@ -59,7 +74,15 @@ namespace CS_Sudoku.Model {
         /// 
         public Sudoku()
         {
-//            throw new NotImplementedException();
+            AllouerGroupes();
+            Grille = new Cellule[9, 9];
+            for (int li = 0; li < 9; li++)
+            {
+                for (int co = 0; co < 9; co++)
+                {
+                    Grille[li, co] = new Cellule(Lignes[li], Colonnes[co], Blocs[GetNuméroBloc(li, co)]);
+                }
+            }
         }
 
         /// <summary>
@@ -89,7 +112,8 @@ namespace CS_Sudoku.Model {
         /// <see cref="Cellule.Effacer"/>
         public void Effacer()
         {
-            throw new NotImplementedException();
+            // Parcourir le tableau this.Grille
+            // Appeler la méthode Effacer() sur chaque cellule de la grille.
         }
 
         /// <summary>
@@ -98,7 +122,12 @@ namespace CS_Sudoku.Model {
         /// </summary>
         public void RemplirPossibilités()
         {
-            throw new NotImplementedException();
+            // Parcourir le tableau this.Grille
+            // Appeler la méthode RemplirPossibilités sur chaque cellule de la grille
+            foreach (Cellule c in this.Grille)
+            {
+                c.RemplirPossibilités();
+            }
         }
 
         /// <summary>

@@ -92,6 +92,11 @@ namespace CS_Sudoku.Model
             Colonne = colonne;
             Bloc = bloc;
             Possibilités = new SortedSet<int>();
+
+            // La cellule s'ajoute elle-même dans la ligne, la colonne et le bloc où elle se trouve
+            Ligne.Add(this);
+            Colonne.Add(this);
+            Bloc.Add(this);
         }
 
         /// <summary>
@@ -101,11 +106,8 @@ namespace CS_Sudoku.Model
         /// <param name="li">Ligne de la nouvelle cellule</param>
         /// <param name="co">Colonne de la nouvelle cellule</param>
         /// <param name="bl">Bloc de la nouvelle cellule</param>
-        public Cellule(Cellule cellule, Ligne li, Colonne co, Bloc bl)
+        public Cellule(Cellule cellule, Ligne li, Colonne co, Bloc bl) : this(li, co, bl)
         {
-            Ligne = li;
-            Colonne = co;
-            Bloc = bl;
             Possibilités = new SortedSet<int>(cellule.Possibilités);
             Fixé = cellule.Fixé;
             Valeur = cellule.Valeur;
