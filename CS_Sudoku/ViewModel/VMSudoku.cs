@@ -94,12 +94,13 @@ namespace CS_Sudoku.ViewModel {
         }
 
         public bool AppliquerRègleSingletonNu(string file, bool pasAPas, out string res) {
-            //SingletonNu sn = new SingletonNu {
-            //    ModePasAPas = pasAPas
-            //};
-            //return AppliquerRègle(sn, file, out res);
-            res = "Non implémenté.";
-            return false;
+            SingletonNu sn = new SingletonNu
+            {
+                ModePasAPas = pasAPas
+            };
+            return AppliquerRègle(sn, file, out res);
+            //res = "Non implémenté.";
+            //return false;
         }
 
         public bool AppliquerRègleInteractionLigneColonneBloc(string file, bool pasAPas, out string res) {

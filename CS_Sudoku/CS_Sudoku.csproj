@@ -61,6 +61,8 @@
     <Compile Include="Model\Groupe.cs" />
     <Compile Include="Model\Ligne.cs" />
     <Compile Include="Model\RegleSudoku.cs" />
+    <Compile Include="Model\RègleGroupe.cs" />
+    <Compile Include="Model\SingletonNu.cs" />
     <Compile Include="Model\Sudoku.cs" />
     <Compile Include="ViewModel\VMBlocCell.cs" />
     <Compile Include="ViewModel\VMCell.cs" />

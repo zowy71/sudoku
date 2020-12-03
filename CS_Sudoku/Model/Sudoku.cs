@@ -75,12 +75,12 @@ namespace CS_Sudoku.Model {
         public Sudoku()
         {
             AllouerGroupes();
-            Grille = new Cellule[9, 9];
+            this.Grille = new Cellule[9, 9];
             for (int li = 0; li < 9; li++)
             {
                 for (int co = 0; co < 9; co++)
                 {
-                    Grille[li, co] = new Cellule(Lignes[li], Colonnes[co], Blocs[GetNuméroBloc(li, co)]);
+                    this.Grille[li, co] = new Cellule(Lignes[li], Colonnes[co], Blocs[GetNuméroBloc(li, co)]);
                 }
             }
         }
@@ -114,6 +114,10 @@ namespace CS_Sudoku.Model {
         {
             // Parcourir le tableau this.Grille
             // Appeler la méthode Effacer() sur chaque cellule de la grille.
+            foreach (Cellule c in this.Grille)
+            {
+                c.Effacer();
+            }
         }
 
         /// <summary>

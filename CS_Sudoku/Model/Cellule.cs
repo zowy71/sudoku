@@ -100,7 +100,7 @@ namespace CS_Sudoku.Model
         }
 
         /// <summary>
-        /// Constructeur par copie, renseignant en outre la ligne, la colonne et le bloc.
+        /// Constructeur "par copie", renseignant en outre la ligne, la colonne et le bloc.
         /// </summary>
         /// <param name="cellule">Cellule à copier</param>
         /// <param name="li">Ligne de la nouvelle cellule</param>

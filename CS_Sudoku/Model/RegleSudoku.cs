@@ -6,10 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CS_Sudoku.Model {
+
+ 
     /// <summary>
     /// Classe générique d'application des règles de sudoku.
     /// </summary>
     public abstract class RègleSudoku {
+
+        /// <summary>
+        /// Référence au Sudoku sur lequel on travaille....
+        /// </summary>
+        public Sudoku Sudoku { get; protected set; }
+
         /// <summary>
         /// Fichier de log permettant d'enregistrer toutes les modifications apportées
         /// </summary>
@@ -27,5 +35,19 @@ namespace CS_Sudoku.Model {
         /// apportées à la grille de sudoku.</param>
         /// <returns><code>true</code> si la grille est modifiée, <code>false</code> sinon</returns>
         public abstract bool Appliquer(Sudoku sudoku, out string description);
+
+        /// <summary>
+        /// Cette méthode ajoute une description de modification dans le 
+        /// fichier référencé par la propriété Log
+        /// </summary>
+        /// <param name="str">Description à ajouter au fichier</param>
+        public void AddToLog(string str)
+        {
+            //if (Log != null)
+            //{
+            //    Log.WriteLine(str);
+            //}
+            Log?.WriteLine(str);
+        }
     }
 }
