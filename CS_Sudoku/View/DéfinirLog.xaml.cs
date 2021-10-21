@@ -17,6 +17,8 @@ namespace CS_Sudoku.View
 {
     /// <summary>
     /// Logique d'interaction pour DéfinirLog.xaml
+    /// L'option MVVM est mal implémentée ici.
+    /// Ne peut-on pas connecter directement le nom du fichier ???
     /// </summary>
     public partial class DéfinirLog : Window
     {

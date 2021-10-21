@@ -9,7 +9,7 @@
     <StackPanel>
         <CheckBox x:Name="cbUse" Content="Utilisez le fichier de Log" HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" IsChecked="True"/>
         <TextBlock Margin="10" Text="{Binding LogFilename, StringFormat=Nom du fichier : {0}}" ToolTip="{Binding LogFilename}"
-                   IsEnabled="{Binding ElementName=cbUse, Path=IsChecked}"/>
+                   IsEnabled="{Binding ElementName=cbUse, Path=IsChecked}"></TextBlock>
         <Button Content=" Modifier... " HorizontalAlignment="Center"
                 IsEnabled="{Binding ElementName=cbUse, Path=IsChecked}" Click="Button_Click"/>
     </StackPanel>

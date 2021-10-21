@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 namespace CS_Sudoku.View {
     /// <summary>
     /// Logique d'interaction pour AfficheModifications.xaml
+    /// Connexion MVVM directement avec VMSudoku
     /// </summary>
     public partial class AfficheModifications : Window {
         public AfficheModifications(VMSudoku sudoku, string content)
