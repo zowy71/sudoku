@@ -5,8 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CS_Sudoku"
         mc:Ignorable="d"
-        Title="Sudoku" Height="500" Width="660" ResizeMode="NoResize" Icon="Images/sudoku_64.png">
+        Title="Sudoku" Height="500" Width="804" ResizeMode="NoResize" Icon="Images/sudoku_64.png">
     <Window.Resources>
+        <Style x:Key="ActiveButton" TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="20"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ActiveToggleButton" TargetType="ToggleButton">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="20"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="ActiveImage" TargetType="Image">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="20"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="RuleButton" TargetType="Button">
+            <Style.Setters>
+                <Setter Property="Width" Value="100"/>
+                <Setter Property="Height" Value="48"/>
+            </Style.Setters>
+        </Style>
         <Style x:Key="StyleRadioButton" BasedOn="{StaticResource {x:Type ToggleButton}}" TargetType="RadioButton">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding ElementName=ToggleButtonEdit, Path=IsChecked}" Value="True">
@@ -62,7 +89,7 @@
             </Style.Triggers>
         </Style>
         <DataTemplate x:Key="CellCase">
-            <Canvas>
+            <Canvas Background="#FFBDAD79">
                 <Border x:Name="CellPossBorder" Width="45" Height="45" BorderThickness="1" BorderBrush="#FFBF4646" Padding="0" Margin="0">
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -154,6 +181,9 @@
         </DataTemplate>
     </Window.Resources>
     <StackPanel Orientation="Horizontal">
+        <StackPanel.Background>
+            <ImageBrush ImageSource="Images/wood.jpg"/>
+        </StackPanel.Background>
         <Border>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -254,32 +284,7 @@
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="40"/>
-                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <ToggleButton x:Name="ToggleButtonEdit"  Grid.Row="0" Grid.Column="1">
-                    <Image x:Name="ImageEdit"  Style="{StaticResource EditButton}"/>
-                </ToggleButton>
-                <Button x:Name="ButtonValidateAll" Grid.Row="0" Grid.Column="1" Visibility="Hidden" Click="ButtonValidateAll_Click">
-                    <Image Source="Images/lieu_valider_64.png" ToolTip="Valider l'initialisation du Sudoku"/>
-                </Button>
-                <Button x:Name="ButtonUndo" Grid.Row="1" Grid.Column="1">
-                    <Image Source="Images/undo_64.png" ToolTip="Effacer les modifications apportées au sudoku"/>
-                </Button>
-                <Button x:Name="ButtonClear" Grid.Row="2" Grid.Column="1" Click="Button_Click">
-                    <Image Source="Images/clear_64.png" ToolTip="Effacer tout le Sudoku"></Image>
-                </Button>
-                <Button x:Name="ButtonLoad" Grid.Row="3" Grid.Column="1" Click="ButtonLoad_Click">
-                    <Image Source="Images/load_64.png" ToolTip="Charger un Sudoku"/>
-                </Button>
-                <Button x:Name="ButtonSave" Grid.Row="4" Grid.Column="1">
-                    <Image Source="Images/save_64.png" ToolTip="Sauvegarder le Sudoku"/>
-                </Button>
-                <Button x:Name="ButtonCheck" Grid.Row="5" Grid.Column="1">
-                    <Image Source="Images/Protection_icon_64.png" ToolTip="Vérifier la grille"/>
-                </Button>
-                <ToggleButton x:Name="ButtonApplyRules"  Grid.Row="6" Grid.Column="1" Click="ButtonApplyRules_Click">
-                    <Image Source="Images/apply_rules_64.png" ToolTip="Mode Application de règles"/>
-                </ToggleButton>
                 <RadioButton Style="{StaticResource StyleRadioButton}" Grid.Row="0" Grid.Column="0">
                     <Label Style="{StaticResource LabelDigitStyle}" Content="1" MouseDown="RBDigits_MouseDown"/>
                 </RadioButton>
@@ -309,32 +314,70 @@
                 </RadioButton>
             </Grid>
         </Border>
-        <Menu x:Name="MenuRules" Width="100" IsEnabled="False">
-            <MenuItem Header="Règles" Height="30" Width="100">
-                <MenuItem x:Name="MenuRule1" Header="Règle 1 : Singleton nu" HorizontalAlignment="Left" Height="30" Click="MenuRule1_Click"/>
-                <MenuItem x:Name="MenuRule2" Header="Règle 2 : Singleton caché" HorizontalAlignment="Left" Click="MenuRule2_Click"/>
-                <MenuItem x:Name="MenuRule3" Header="Règle 3 : Interaction Ligne,Colonne/Bloc" HorizontalAlignment="Left" Click="MenuRule3_Click"/>
-                <MenuItem x:Name="MenuRule4" Header="Règle 4 : Groupe nu" HorizontalAlignment="Left" Click="MenuRule4_Click"/>
-                <MenuItem x:Name="MenuRule5" Header="Règle 5 : Groupe caché" HorizontalAlignment="Left" Click="MenuRule5_Click"/>
-                <Separator/>
-                <MenuItem x:Name="MenuX_Wing" Header="X-Wing" HorizontalAlignment="Left" Click="MenuX_Wing_Click"/>
-                <MenuItem x:Name="MenuSwordfish" Header="Swordfish" HorizontalAlignment="Left" Click="MenuSwordfish_Click"/>
-                <Separator/>
-                <MenuItem x:Name="MenuBackTracking" Header="Back Tracking" HorizontalAlignment="Left" Click="MenuBackTracking_Click"/>
-                <MenuItem x:Name="MenuAllRules" Header="Lancer toutes les règles" HorizontalAlignment="Left" Click="MenuAllRules_Click"/>
-                <Separator/>
-                <MenuItem x:Name="ModePasAPas" Header="Mode pas à pas" HorizontalAlignment="Left" IsCheckable="True" IsChecked="True"/>
-                <MenuItem x:Name="AfficherResultat" Header="Afficher les modifications apportées" HorizontalAlignment="Left" IsCheckable="True" IsChecked="True"/>
-                <Separator/>
-                <MenuItem x:Name="MenuDefinirLog" Header="Choisir le fichier de Log..." HorizontalAlignment="Left" Click="MenuDefinirLog_Click"/>
-                <MenuItem x:Name="MenuSupprimerLog" Header="Annuler le fichier de Log" HorizontalAlignment="Left" Click="MenuSupprimerLog_Click"/>
-                <MenuItem x:Name="MenuLog" Header="Fichier de Log : ">
-                    <TextBox x:Name="tbLog" Text="Aucun" HorizontalScrollBarVisibility="Auto"/>
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="Aide..." Height="30">
-                <MenuItem x:Name="RemplirPossibilites" Header="Remplir les possibilités" HorizontalAlignment="Left" Click="RemplirPossibilites_Click"/>
-            </MenuItem>
-        </Menu>
+        <ListBox Width="65">
+            <ListBox.Background>
+                <ImageBrush ImageSource="Images/wood.jpg"/>
+            </ListBox.Background>
+            <ToggleButton x:Name="butTogPlacerOu" Style="{StaticResource ActiveToggleButton}" ToolTip="Placer les chiffres/possibilités"
+                          Command="{Binding DéfinirPlacerOuPossibilités}"
+                          IsChecked="{Binding PlacerChiffre, Mode=TwoWay}">
+                <Image Source="Images/tampon_64.png" Height="45" Width="45"/>
+            </ToggleButton>
+            <ToggleButton x:Name="togButDefinir" ToolTip="Définir un nouveau sudoku" 
+                          IsChecked="{Binding Définir, Mode=TwoWay}">
+                <Image Source="Images/actions-document-edit_64.png" Height="45" Width="45"/>
+            </ToggleButton>
+            <Button x:Name="butRemplir" Style="{StaticResource ActiveButton}" ToolTip="Remplir toutes les possibilités" 
+                    Command="{Binding RemplirPossibilités}">
+                <Image Style="{StaticResource ActiveImage}" Source="Images/possibilites.png" Height="45" Width="45"/>
+            </Button>
+            <Button ToolTip="Tout effacer" Command="{Binding Effacer}"
+                    CommandParameter="{Binding ElementName=togButDefinir, Path=IsChecked}">
+                <Image Source="Images/clear_64.png" Height="45" Width="45"/>
+            </Button>
+            <Button ToolTip="Vérifier l'intégrité">
+                <Image Source="Images/Protection_icon_64.png" Height="45" Width="45"/>
+            </Button>
+            <Button Style="{StaticResource ActiveButton}" ToolTip="Charger un Sudoku"
+                    Command="{Binding ChargerCSV}">
+                <Image Style="{StaticResource ActiveImage}" Source="Images/load2_64.png" Height="45" Width="45"/>
+            </Button>
+            <Button Style="{StaticResource ActiveButton}" ToolTip="Sauvegarder le Sudoku" Command="{Binding SauvegarderCSV}">
+                <Image Style="{StaticResource ActiveImage}" Source="Images/save2_64.png" Height="45" Width="45"/>
+            </Button>
+        </ListBox>
+        <ListBox Width="135">
+            <ListBox.Background>
+                <ImageBrush ImageSource="Images/wood.jpg"/>
+            </ListBox.Background>
+            <Button Style="{StaticResource RuleButton}" Content=" Sing. Nu " ToolTip="Singleton nu"
+                    Command="{Binding SingletonNu}"></Button>
+            <Button Style="{StaticResource RuleButton}" Content=" Sing. Caché " ToolTip="Singleton caché"
+                    Command="{Binding SingletonCaché}"></Button>
+            <Button Style="{StaticResource RuleButton}" Content=" Inter. L/C/B " ToolTip="Interaction ligne, colonne, bloc"
+                    Command="{Binding InteractionLigneColonneBloc}"></Button>
+            <Button Style="{StaticResource RuleButton}" Content=" Gpe Nu " ToolTip="Groupe nu"
+                    Command="{Binding GroupeNu}"></Button>
+            <Button Style="{StaticResource RuleButton}" Content=" Gpe. Caché " ToolTip="Groupe caché"
+                    Command="{Binding GroupeCaché}"></Button>
+            <Button Style="{StaticResource RuleButton}" Content=" X-Wing " ToolTip="X-Wing"
+                    Command="{Binding XWing}"></Button>
+            <Button Style="{StaticResource RuleButton}" Content=" Swordfish " ToolTip="Swordfish"
+                    Command="{Binding SwordFish}"></Button>
+            <Button Style="{StaticResource RuleButton}" Content=" Back Tracking " ToolTip="Back tracking"
+                    Command="{Binding BackTracking}"></Button>
+            <Button Style="{StaticResource RuleButton}" Content=" Tt Règles " ToolTip="Toutes les règles"
+                    Command="{Binding ToutesLesRègles}"></Button>
+        </ListBox>
+        <ListBox Width="65">
+            <ListBox.Background>
+                <ImageBrush ImageSource="Images/wood.jpg"/>
+            </ListBox.Background>
+            <ToggleButton Width="50" Height="48" Content="Modif." ToolTip="Afficher les modifications"
+                          IsChecked="{Binding AfficherModifications, Mode=TwoWay}"/>
+            <ToggleButton Width="50" Height="48" Content="Pas/Pas" ToolTip="Mode pas à pas"
+                          IsChecked="{Binding ModePasAPas, Mode=TwoWay}"/>
+            <Button Width="50" Height="48" Content=" Log " ToolTip="Fichier Log." Command="{Binding DéfinirLog}"/>
+        </ListBox>
     </StackPanel>
 </Window>

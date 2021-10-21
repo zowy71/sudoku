@@ -159,8 +159,10 @@ namespace CS_Sudoku.Model
         /// <summary>
         /// Efface tout le contenu de la cellule.
         /// </summary>
-        public void Effacer()
+        /// <param name="all">Si à vrai, efface toutes les cellules, sinon n'efface que les cellules non fixées</param>
+        public void Effacer(bool all = true)
         {
+            if (!all && Fixé) return;
             Valeur = Cellule.NONE;
             Fixé = false;
             Possibilités.Clear();

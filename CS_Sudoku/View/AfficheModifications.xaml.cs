@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CS_Sudoku.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,17 +18,11 @@ namespace CS_Sudoku.View {
     /// Logique d'interaction pour AfficheModifications.xaml
     /// </summary>
     public partial class AfficheModifications : Window {
-        public AfficheModifications() {
+        public AfficheModifications(VMSudoku sudoku, string content)
+        {
             InitializeComponent();
-        }
-
-        public bool AfficherModifications {
-            get { return cbAfficherModifications.IsChecked == false; }
-        }
-        public string Contenu {
-            set {
-                tbContenu.Text = value;
-            }
+            this.DataContext = sudoku;
+            tbContenu.Text = content;
         }
     }
 }

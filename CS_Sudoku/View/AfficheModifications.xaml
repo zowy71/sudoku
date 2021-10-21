@@ -9,7 +9,8 @@
     <Grid>
         <Rectangle Fill="#FFF4F4F5" Margin="10,10,9.8,23" Stroke="Black"/>
         <TextBox x:Name="tbContenu" Margin="20,19,18.8,34" TextWrapping="Wrap" Text="TextBox" FontFamily="Poiret One" AcceptsReturn="True" AutoWordSelection="True" IsReadOnly="True" FontSize="14" VerticalScrollBarVisibility="Auto"/>
-        <CheckBox x:Name="cbAfficherModifications" Content="Ne plus afficher les modifications" HorizontalAlignment="Left" Margin="10,0,0,2" Width="195" Height="16" VerticalAlignment="Bottom"/>
+        <CheckBox x:Name="cbAfficherModifications" Content="Afficher les modifications" HorizontalAlignment="Left" Margin="10,0,0,2" 
+                  Width="195" Height="16" VerticalAlignment="Bottom" IsChecked="{Binding AfficherModifications, Mode=TwoWay}"/>
 
     </Grid>
 </Window>

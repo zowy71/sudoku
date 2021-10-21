@@ -14,14 +14,23 @@ namespace CS_Sudoku.Model {
     public abstract class RègleSudoku {
 
         /// <summary>
+        /// Constructeur permettant d'initialiser le nom du fichier et le mode pas à pas
+        /// </summary>
+        /// <param name="filename">Nom du fichier "log"</param>
+        /// <param name="pasAPas">Détermine si on est en mode pas à pas ou non</param>
+        public RègleSudoku(string filename=null, bool pasAPas = false)
+        {
+            _filename = filename;
+            ModePasAPas = pasAPas;
+        }
+        /// <summary>
         /// Référence au Sudoku sur lequel on travaille....
         /// </summary>
         public Sudoku Sudoku { get; protected set; }
 
-        /// <summary>
-        /// Fichier de log permettant d'enregistrer toutes les modifications apportées
-        /// </summary>
-        public StreamWriter Log { get; set; }
+        private StreamWriter _log;
+        private string _filename;
+
         /// <summary>
         /// Mode pas à pas : dès qu'une modification est apportée, stoppe l'application de la règle.
         /// </summary>
@@ -34,7 +43,17 @@ namespace CS_Sudoku.Model {
         /// <param name="description">Contiendra la description des modifications 
         /// apportées à la grille de sudoku.</param>
         /// <returns><code>true</code> si la grille est modifiée, <code>false</code> sinon</returns>
-        public abstract bool Appliquer(Sudoku sudoku, out string description);
+        public bool Appliquer(Sudoku sudoku, out string description)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Applique une règle sur le sudoku enregistré dans la propriété Sudoku
+        /// </summary>
+        /// <param name="description">Description des modifications apportées au sudoku</param>
+        /// <returns></returns>
+        protected abstract bool DoAppliquer(out string description);
 
         /// <summary>
         /// Cette méthode ajoute une description de modification dans le 
@@ -43,11 +62,7 @@ namespace CS_Sudoku.Model {
         /// <param name="str">Description à ajouter au fichier</param>
         public void AddToLog(string str)
         {
-            //if (Log != null)
-            //{
-            //    Log.WriteLine(str);
-            //}
-            Log?.WriteLine(str);
+            throw new NotImplementedException();
         }
     }
 }

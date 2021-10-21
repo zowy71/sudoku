@@ -26,7 +26,7 @@ namespace CS_Sudoku.ViewModel {
                 // TODO
                 // Créer dans le modèle un opérateur this[]
                 // pour passer une cellule à la ViewModel VMCell...
-                _array[i] = new VMCell(grille[num / 3 * 3 + i / 3, num % 3 * 3 + i % 3]);
+                _array[i] = new VMCell(/*grille[num / 3 * 3 + i / 3, num % 3 * 3 + i % 3]*/);
             }
         }
 
@@ -48,9 +48,9 @@ namespace CS_Sudoku.ViewModel {
             }
         }
 
-        public void ClearAll() {
+        public void ClearAll( bool all = true) {
             foreach (VMCell cell in _array) {
-                cell.ClearAll();
+                cell.ClearAll(all);
             }
         }
     }

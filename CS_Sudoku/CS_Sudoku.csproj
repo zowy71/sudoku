@@ -8,12 +8,13 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>CS_Sudoku</RootNamespace>
     <AssemblyName>CS_Sudoku</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -62,13 +63,16 @@
     <Compile Include="Model\Ligne.cs" />
     <Compile Include="Model\RegleSudoku.cs" />
     <Compile Include="Model\RègleGroupe.cs" />
-    <Compile Include="Model\SingletonNu.cs" />
     <Compile Include="Model\Sudoku.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\VMBlocCell.cs" />
     <Compile Include="ViewModel\VMCell.cs" />
     <Compile Include="ViewModel\VMSudoku.cs" />
     <Compile Include="View\AfficheModifications.xaml.cs">
       <DependentUpon>AfficheModifications.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DéfinirLog.xaml.cs">
+      <DependentUpon>DéfinirLog.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -83,6 +87,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\AfficheModifications.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DéfinirLog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -125,6 +133,11 @@
     <Resource Include="Images\tampon_64.png" />
     <Resource Include="Images\undo_64.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\load2_64.png" />
+    <Resource Include="Images\possibilites.png" />
+    <Resource Include="Images\save2_64.png" />
+    <Resource Include="Images\wood.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

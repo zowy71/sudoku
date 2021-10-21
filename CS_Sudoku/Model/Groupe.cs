@@ -21,6 +21,7 @@ namespace CS_Sudoku.Model
         ///  Nom du groupe
         /// </summary>
         public virtual string Nom { get; private set; }
+
         /// <summary>
         /// Nom court du groupe
         /// </summary>
@@ -74,7 +75,7 @@ namespace CS_Sudoku.Model
         /// <exception cref="ArgumentOutOfRangeException">Si la valeur n'est pas comprise entre 1 et 9</exception>
         public void AjouterValeurFixéeOuTrouvée(int v)
         {
-            this.ValeursFixéesOuTrouvées.Add(v);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace CS_Sudoku.Model
         /// <exception cref="ArgumentOutOfRangeException">Si la valeur n'est pas comprise entre 1 et 9</exception>
         public void SupprimerValeurFixéeOuTrouvée(int v)
         {
-            this.ValeursFixéesOuTrouvées.Remove(v);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -96,7 +97,7 @@ namespace CS_Sudoku.Model
         /// du groupe, <code>false</code> sinon.</returns>
         public bool ContientValeurFixéeOuTrouvée(int v)
         {
-            return this.ValeursFixéesOuTrouvées.Contains(v);
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -107,46 +108,18 @@ namespace CS_Sudoku.Model
         /// du groupe, <code>false</code> sinon.</returns>
         public bool ContientAuMoinsUneValeurFixéeOuTrouvée(IEnumerable<int> ens)
         {
-            //// Version 1 : Version "académique"
-            //bool trouve = false;
-            //IEnumerator<int> it = ens.GetEnumerator();
-            //while (it.MoveNext() && !trouve)
-            //{
-            //    trouve = this.ValeursFixéesOuTrouvées.Contains(it.Current);
-            //}
-            //return trouve;
-
-
-
-            // Version 2 :
-            bool trouve = false;
-            foreach (int elmt in ens)
-            {
-                //if (this.ValeursFixéesOuTrouvées.Contains(elmt)) return true;
-                if (this.ValeursFixéesOuTrouvées.Contains(elmt))
-                {
-                    trouve = true;
-                    break;
-                }
-            }
-            return trouve;
-
-            // Version 3 : 
-            //HashSet<int> m_ens = new HashSet<int>(this.ValeursFixéesOuTrouvées);
-            //m_ens.IntersectWith(ens);
-            //return m_ens.Count > 0;
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Méthode permettant d'effacer toutes les cellules du groupe.
+        ///
         /// <see cref="Cellule.Effacer"/>
         /// </summary>
-        public void Effacer()
+        /// <param name="all"> Si à vrai, efface toutes les cellules, sinon n'efface que les cellules qui ne sont pas fixées.</param>
+        public void Effacer(bool all = true)
         {
-            foreach (Cellule c in this)
-            {
-                c.Effacer();
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -155,13 +128,7 @@ namespace CS_Sudoku.Model
         /// <returns>Première cellule du groupe</returns>
         public Cellule GetFirst()
         {
-            // Version 1 "académique"
-            //IEnumerator<Cellule> it = this.GetEnumerator();
-            //if (it.MoveNext()) return it.Current;
-            //return null;
-
-            // Version 2 
-            return this.First();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -171,11 +138,9 @@ namespace CS_Sudoku.Model
         /// <see cref="Cellule.RemplirPossibilités"/>
         public void RemplirPossibilités()
         {
-            foreach (Cellule c in this)
-            {
-                c.RemplirPossibilités();
-            }
+            throw new NotImplementedException();
         }
+
 
         /// <summary>
         /// Permet de supprimer une valeur possible des possibilités
@@ -187,17 +152,7 @@ namespace CS_Sudoku.Model
         /// a été modifiée, <code>false</code> sinon.</returns>
         public bool SupprimerPossibilité(int v, Cellule origine = null)
         {
-            bool modifie = false;
-            foreach (Cellule c in this)
-            {
-                if (c != origine)
-                {
-                    if (c.SupprimerPossibilité(v))
-                        modifie = true;
-                    //modifie |= c.SupprimerPossibilité(v);
-                }
-            }
-            return modifie;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -246,20 +201,7 @@ namespace CS_Sudoku.Model
         /// données en paramètre.</returns>
         public Groupe GetCellulesContenantAuPlus(IEnumerable<int> vals)
         {
-            Groupe res = new Groupe();
-
-            foreach (Cellule c in this)
-            {
-                if ( (!c.Fixé) && (!c.Trouvé) )
-                {
-                    if (c.Possibilités.IsSubsetOf(vals))
-                    {
-                        res.Add(c);
-                    }
-                }
-            }
-
-            return res;
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -270,6 +212,18 @@ namespace CS_Sudoku.Model
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// Récupère toutes les cellules du groupe 
+        /// contenant le chiffre <paramref name="chiffre"/> dans leurs possibilités.
+        /// </summary>
+        /// <param name="chiffre">Chiffre à chercher dans les possibilités</param>
+        /// <returns>Groupe de cellules contenant le chiffre dans leurs possibilités</returns>
+        public Groupe GetCellulesContenantAuMoins(int chiffre)
+        {
+            throw new NotImplementedException();
+        }
+
 
         /// <summary>
         /// Permet de récupérer les cellules du groupe qui contiennent les valeurs données en paramètre

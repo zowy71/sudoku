@@ -74,15 +74,7 @@ namespace CS_Sudoku.Model {
         /// 
         public Sudoku()
         {
-            AllouerGroupes();
-            this.Grille = new Cellule[9, 9];
-            for (int li = 0; li < 9; li++)
-            {
-                for (int co = 0; co < 9; co++)
-                {
-                    this.Grille[li, co] = new Cellule(Lignes[li], Colonnes[co], Blocs[GetNuméroBloc(li, co)]);
-                }
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -110,14 +102,9 @@ namespace CS_Sudoku.Model {
         /// Efface toutes les cellules du Sudoku
         /// </summary>
         /// <see cref="Cellule.Effacer"/>
-        public void Effacer()
+        public void Effacer(bool all = true)
         {
-            // Parcourir le tableau this.Grille
-            // Appeler la méthode Effacer() sur chaque cellule de la grille.
-            foreach (Cellule c in this.Grille)
-            {
-                c.Effacer();
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -126,12 +113,7 @@ namespace CS_Sudoku.Model {
         /// </summary>
         public void RemplirPossibilités()
         {
-            // Parcourir le tableau this.Grille
-            // Appeler la méthode RemplirPossibilités sur chaque cellule de la grille
-            foreach (Cellule c in this.Grille)
-            {
-                c.RemplirPossibilités();
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>

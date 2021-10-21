@@ -39,7 +39,10 @@ namespace CS_Sudoku.ViewModel {
         // Un tableau de 10 cases : La case 0 ne sert à rien !
         private Possibility[] possibilités = new Possibility[10];
 
-        public int IntValeur => cell.Valeur;
+        //!! Temporaire : A spupprimer dans le modèle cell sera fait !!
+        private int _valeur = VMSudoku.Rnd.Next(0, 10);
+        private bool _fixed = VMSudoku.Rnd.Next(2) == 1;
+        public int IntValeur => _valeur; // cell.Valeur;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -76,24 +79,25 @@ namespace CS_Sudoku.ViewModel {
         /// Constructeur recevant le modèle correspondant
         /// </summary>
         /// <param name="cell"></param>
-        public VMCell(Cellule cell) {
-            this.cell = cell;
+        public VMCell(/*Cellule cell*/) {
+            //this.cell = cell;
             possibilités[0] = new Possibility { Is = false };
             for (int i = 1; i < 10; i++) {
                 // TODO : A connecter au modèle
-                possibilités[i] = new Possibility { Is = cell.Possibilités.Contains(i) };
+                possibilités[i] = new Possibility { Is = VMSudoku.Rnd.Next(2) == 1 }; // cell.Possibilités.Contains(i) };
             }
         }
 
         // TODO
         // A connecter au modèle !!
-        public bool IsFixed => cell.Fixé;
-        public bool IsSet => cell.Trouvé;
+        public bool IsFixed => _fixed && _valeur != 0; // cell.Fixé;
+        // public bool IsSet => cell.Trouvé;
+        public bool IsSet { get { return !IsFixed && _valeur != 0; } }
  
         public void Refresh() {
             for (int i = 1; i < 10; i++) {
                 // TODO : A connecter au modèle
-                possibilités[i].Is = cell.Possibilités.Contains(i);
+                possibilités[i].Is = VMSudoku.Rnd.Next(2) == 1; // cell.Possibilités.Contains(i);
             }
             OnPropertyChanged("IsFixed");
             OnPropertyChanged("IsSet");
@@ -116,8 +120,9 @@ namespace CS_Sudoku.ViewModel {
                 if (nv == this.IntValeur) {
                     // TODO : A connecter au modèle
                     // On retire alors l'état fixé
-                    cell.SupprimerValeur();
- 
+                    // cell.SupprimerValeur();
+                    _valeur = 0;
+
                     // Il faut avertir des propriétés modifiées !
                     OnPropertyChanged("IsSet");
                     // OnPropertyChanged("Opacity");
@@ -126,8 +131,8 @@ namespace CS_Sudoku.ViewModel {
             } else {
                 // TODO : A connecter au modèle
                 // Ici, on applique la valeur
-                cell.ModifierValeur(nv);
-                //__valeur = nv;
+                // cell.ModifierValeur(nv);
+                _valeur = nv;
                 OnPropertyChanged("IsSet");
                 //OnPropertyChanged("Opacity");
                 OnPropertyChanged("IsConcerned");
@@ -138,19 +143,19 @@ namespace CS_Sudoku.ViewModel {
         public void FixeValue(int value) {
             // TODO : A connecter au modèle
             if (IsFixed && value == this.IntValeur) {
-                cell.Effacer();
+                // cell.Effacer();
             } else {
-                cell.FixerValeur(value);
+                // cell.FixerValeur(value);
             }
             OnPropertyChanged("IsFixed");
             OnPropertyChanged("IsConcerned");
             OnPropertyChanged("Valeur");
         }
 
-        public void ClearAll() {
+        public void ClearAll(bool all=true) {
             // TODO : A connecter au modèle
             // On efface tout
-            cell.Effacer();
+            // cell.Effacer(all);
             for (int i = 1; i < 10; ++i) {
                 possibilités[i].Is = false;
             }
@@ -163,7 +168,7 @@ namespace CS_Sudoku.ViewModel {
             if (!IsSet) {
                 this.possibilités[valeur].Is = !this.possibilités[valeur].Is;
                 // TODO : A connecter au modèle 
-                bool b = (cell.Contient(valeur) ? cell.SupprimerPossibilité(valeur) : cell.AjouterPossibilité(valeur));
+                // bool b = (cell.Contient(valeur) ? cell.SupprimerPossibilité(valeur) : cell.AjouterPossibilité(valeur));
                 OnPropertyChanged("IsConcerned");
                 //OnPropertyChanged("Opacity");
             } // Sinon, on refuse toute action
