@@ -116,7 +116,7 @@ namespace CS_Sudoku.ViewModel {
         #endregion
 
         // TODO : Créer le modèle Sudoku
-        private Sudoku grille = new Sudoku();
+        private Sudoku grille; // = new Sudoku();
         private VMBlocCell[] _array = new VMBlocCell[9];
         private static readonly Random rnd = new Random();
 
