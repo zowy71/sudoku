@@ -305,7 +305,7 @@ namespace CS_Sudoku.ViewModel {
                     if (!res)
                         main.InformMessage(rapport, "Problèmes lors du chargement");
                 }
-                catch (NotImplementedException)
+                catch (Exception e) when (e is NotImplementedException || e is NullReferenceException)
                 {
                     main.InformMessage("Non implémenté");
                 }
