@@ -321,7 +321,7 @@ namespace CS_Sudoku.ViewModel {
                 {
                     grille.SauvegarderCSV(filename);
                 }
-                catch (NotImplementedException)
+                catch (Exception e) when (e is NotImplementedException || e is NullReferenceException)
                 {
                     main.InformMessage("Non implémenté...");
                 }
