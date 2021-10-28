@@ -142,7 +142,7 @@ namespace CS_Sudoku.Model
         /// <param name="all"> Si à vrai, efface toutes les cellules, sinon n'efface que les cellules qui ne sont pas fixées.</param>
         public void Effacer(bool all = true)
         {
-            if (!all)
+            if (all )
             {
 
             }
