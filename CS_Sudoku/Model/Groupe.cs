@@ -75,7 +75,15 @@ namespace CS_Sudoku.Model
         /// <exception cref="ArgumentOutOfRangeException">Si la valeur n'est pas comprise entre 1 et 9</exception>
         public void AjouterValeurFixéeOuTrouvée(int v)
         {
-            throw new NotImplementedException();
+            if (v < 1 || v > 9)
+            {
+                throw new Exception("La valeur n'est pas comprise entre 1 et 9");
+            }
+            else
+            {
+                this.ValeursFixéesOuTrouvées.Add(v);
+            }
+            
         }
 
         /// <summary>
@@ -85,7 +93,13 @@ namespace CS_Sudoku.Model
         /// <exception cref="ArgumentOutOfRangeException">Si la valeur n'est pas comprise entre 1 et 9</exception>
         public void SupprimerValeurFixéeOuTrouvée(int v)
         {
-            throw new NotImplementedException();
+            if (v >= 1 || v <= 9) {
+                this.ValeursFixéesOuTrouvées.Remove(v);
+            }
+            else
+            {
+                throw new Exception("La valeur n'est pas compris entre 1 et 9");
+            }
         }
 
         /// <summary>
@@ -97,7 +111,11 @@ namespace CS_Sudoku.Model
         /// du groupe, <code>false</code> sinon.</returns>
         public bool ContientValeurFixéeOuTrouvée(int v)
         {
-            throw new NotImplementedException();
+            if (this.ValeursFixéesOuTrouvées.Contains(v))
+            {
+                return true;
+            }
+            else { return false; }
         }
 
         /// <summary>
@@ -108,7 +126,12 @@ namespace CS_Sudoku.Model
         /// du groupe, <code>false</code> sinon.</returns>
         public bool ContientAuMoinsUneValeurFixéeOuTrouvée(IEnumerable<int> ens)
         {
-            throw new NotImplementedException();
+            var res = ens.Intersect(this.ValeursFixéesOuTrouvées);
+            if (res.Count() == 0)
+            {
+                return false;
+            }
+            else { return true; }
         }
 
         /// <summary>
@@ -119,7 +142,10 @@ namespace CS_Sudoku.Model
         /// <param name="all"> Si à vrai, efface toutes les cellules, sinon n'efface que les cellules qui ne sont pas fixées.</param>
         public void Effacer(bool all = true)
         {
-            throw new NotImplementedException();
+            if (!all)
+            {
+
+            }
         }
 
         /// <summary>
