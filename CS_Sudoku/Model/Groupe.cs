@@ -142,10 +142,15 @@ namespace CS_Sudoku.Model
         /// <param name="all"> Si à vrai, efface toutes les cellules, sinon n'efface que les cellules qui ne sont pas fixées.</param>
         public void Effacer(bool all = true)
         {
-            if (all )
+            if (!all)
             {
 
             }
+
+            foreach (Cellule c in this)
+            {
+                c.Effacer();
+            } 
         }
 
         /// <summary>
@@ -164,7 +169,10 @@ namespace CS_Sudoku.Model
         /// <see cref="Cellule.RemplirPossibilités"/>
         public void RemplirPossibilités()
         {
-            throw new NotImplementedException();
+            foreach (Cellule c in this)
+            {
+                c.RemplirPossibilités();
+            }
         }
 
 
