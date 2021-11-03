@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -79,10 +79,7 @@ namespace CS_Sudoku.Model
             {
                 throw new Exception("La valeur n'est pas comprise entre 1 et 9");
             }
-            else
-            {
-                this.ValeursFixéesOuTrouvées.Add(v);
-            }
+            this.ValeursFixéesOuTrouvées.Add(v);
             
         }
 
