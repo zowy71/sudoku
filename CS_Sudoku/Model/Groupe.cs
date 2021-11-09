@@ -156,7 +156,7 @@ namespace CS_Sudoku.Model
         /// <returns>Première cellule du groupe</returns>
         public Cellule GetFirst()
         {
-            throw new NotImplementedException();
+            return this.ElementAt(0);
         }
 
         /// <summary>
