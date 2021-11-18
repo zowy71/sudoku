@@ -65,6 +65,7 @@ namespace CS_Sudoku.Model {
             return li / 3 * 3 + co / 3;
         }
 
+
          /// <summary>
         /// Constructeur par défaut.
         /// 
@@ -74,7 +75,16 @@ namespace CS_Sudoku.Model {
         /// 
         public Sudoku()
         {
-            throw new NotImplementedException();
+            this.AllouerGroupes();
+            Cellule[,] grille = new Cellule[9, 9];
+
+            for (int i = 0; i < grille.GetLength(0); i++) // axe x : lignes
+            {
+                for (int j = 0; j < grille.GetLength(1); j++) // axe y : colonnes
+                {
+                    grille[i, j] = new Cellule(Lignes[i], Colonnes[j], this.Blocs[GetNuméroBloc(i, j)]);
+                }
+            }
         }
 
         /// <summary>
@@ -85,7 +95,16 @@ namespace CS_Sudoku.Model {
         /// <param name="sudo">Grille de sudoku à copier</param>
         public Sudoku(Sudoku sudo)
         {
-            throw new NotImplementedException();
+            this.AllouerGroupes();
+            Cellule[,] copie = new Cellule[9, 9];
+            for (int i = 0; i < sudo.Grille.GetLength(0); i++) // axe x : lignes de sudo
+            {
+                for (int j = 0; j < sudo.Grille.GetLength(1); j++) // axe y : colonnes de sudo
+                {
+                    copie[i, j] = new Cellule(Lignes[i], Colonnes[j], this.Blocs[GetNuméroBloc(i, j)]);
+                }
+            }
+            this.Grille = copie;
         }
 
         /// <summary>
@@ -104,7 +123,11 @@ namespace CS_Sudoku.Model {
         /// <see cref="Cellule.Effacer"/>
         public void Effacer(bool all = true)
         {
-            throw new NotImplementedException();
+            foreach (Cellule c in Grille)
+            {
+                c.Effacer(all);
+            }
+
         }
 
         /// <summary>
@@ -113,7 +136,16 @@ namespace CS_Sudoku.Model {
         /// </summary>
         public void RemplirPossibilités()
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < this.Grille.GetLength(0); i++)
+            {
+                for (int j = 0; j < this.Grille.GetLength(1); j++)
+                {
+                    if (!this.Grille[i, j].Fixé || !this.Grille[i, j].Trouvé)
+                    {
+                        this.RemplirPossibilités();
+                    }
+                }
+            }
         }
 
         /// <summary>
