@@ -123,11 +123,10 @@ namespace CS_Sudoku.Model {
         /// <see cref="Cellule.Effacer"/>
         public void Effacer(bool all = true)
         {
-            foreach (Cellule c in Grille)
+            foreach (Cellule c in this.Grille)
             {
-                c.Effacer(all);
+                c.Effacer(all); // c = ... -> ne fonctionnera pas
             }
-
         }
 
         /// <summary>
@@ -136,15 +135,9 @@ namespace CS_Sudoku.Model {
         /// </summary>
         public void RemplirPossibilités()
         {
-            for (int i = 0; i < this.Grille.GetLength(0); i++)
+            foreach (Cellule c in this.Grille)
             {
-                for (int j = 0; j < this.Grille.GetLength(1); j++)
-                {
-                    if (!this.Grille[i, j].Fixé || !this.Grille[i, j].Trouvé)
-                    {
-                        this.RemplirPossibilités();
-                    }
-                }
+                c.RemplirPossibilités();
             }
         }
 

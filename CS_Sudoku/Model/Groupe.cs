@@ -140,9 +140,9 @@ namespace CS_Sudoku.Model
         public void Effacer(bool all = true)
         {
             foreach (Cellule c in this)
-                {
-                    c.Effacer(all);
-                }
+            {
+                c.Effacer(all);
+            }
         }
 
         /// <summary>

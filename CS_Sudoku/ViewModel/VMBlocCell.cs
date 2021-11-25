@@ -19,14 +19,13 @@ namespace CS_Sudoku.ViewModel {
         /// </summary>
         /// <param name=""></param>
         /// <param name="num"></param>
-        public VMBlocCell(Sudoku grille,  int num) {
+        public VMBlocCell(Sudoku grille, int num)
+        {
             this.grille = grille;
             this.num = num;
-            for (int i = 0; i < _array.Length; ++i) {
-                // TODO
-                // Créer dans le modèle un opérateur this[]
-                // pour passer une cellule à la ViewModel VMCell...
-                _array[i] = new VMCell(/*grille[num / 3 * 3 + i / 3, num % 3 * 3 + i % 3]*/);
+            for (int i = 0; i < _array.Length; ++i)
+            {
+                _array[i] = new VMCell(grille[num / 3 * 3 + i / 3, num % 3 * 3 + i % 3]);
             }
         }
 

@@ -28,8 +28,8 @@ namespace CS_Sudoku.Model {
         /// </summary>
         public Sudoku Sudoku { get; protected set; }
 
-        private StreamWriter _log;
-        private string _filename;
+        private StreamWriter _log; // sauvegarde de modif sur un fichiers
+        private string _filename; // nom fichier
 
         /// <summary>
         /// Mode pas à pas : dès qu'une modification est apportée, stoppe l'application de la règle.
@@ -45,7 +45,21 @@ namespace CS_Sudoku.Model {
         /// <returns><code>true</code> si la grille est modifiée, <code>false</code> sinon</returns>
         public bool Appliquer(Sudoku sudoku, out string description)
         {
-            throw new NotImplementedException();
+            if (_filename != null)
+            {
+                _log = new StreamWriter(_filename, true);
+            }
+
+            bool res = DoAppliquer(out description);
+            
+            if (_log != null)
+            {
+                _log.Close();
+                _log = null;
+            }
+
+            return res;
+
         }
 
         /// <summary>
@@ -62,7 +76,10 @@ namespace CS_Sudoku.Model {
         /// <param name="str">Description à ajouter au fichier</param>
         public void AddToLog(string str)
         {
-            throw new NotImplementedException();
+            if (_log != null)
+            {
+                _log.WriteLine(str);
+            }
         }
     }
 }
